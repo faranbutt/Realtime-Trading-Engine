@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: ./realtime-trading-engine
+      dockerfile: Dockerfile
+    container_name: trading-backend
+    ports:
+      - "3000:3000"
+    networks:
+      - trading-network 
+    restart: always
+  ui:
+    build:
+      context: ./realtime-trading-engine-ui
+      dockerfile: Dockerfile
+    container_name: trading-ui
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - trading-network
+    restart: always
+networks:
+  trading-network:
+    driver: bridge
